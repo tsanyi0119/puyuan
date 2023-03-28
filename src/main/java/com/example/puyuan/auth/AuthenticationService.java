@@ -22,9 +22,7 @@ public class AuthenticationService {
                 .build();
         // 儲存至資料庫
         repository.save(user);
-        // 產生JWT
-        return AuthenticationResponse.builder()
-                .status("0")
-                .build();
+
+        return AuthenticationResponse.SUCCESS();
     }
 }

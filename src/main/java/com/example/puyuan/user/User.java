@@ -1,6 +1,7 @@
 package com.example.puyuan.user;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -18,11 +19,14 @@ public class User implements UserDetails {
     @Id
     @GeneratedValue
     private Integer id;
+    @NotBlank
     private String account;
+    @NotBlank
     private String phone;
-
-    @JoinColumn(unique = true)
+    @NotBlank
+    @Column(unique = true)
     private String email;
+    @NotBlank
     private String password;
 
     @Enumerated(EnumType.STRING)
