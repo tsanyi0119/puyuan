@@ -19,12 +19,11 @@ public class AuthenticationResponse {
     @Getter
     @AllArgsConstructor
     public enum Result {
-        /** 操作成功 */
+        //成功
         SUCCESS("0"),
-        /** 操作失敗 */
+        //失敗
         FAILED("1");
 
-        /** 定義狀態碼 **/
         private final String value;
     }
 }
