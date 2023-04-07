@@ -77,6 +77,21 @@ public class AuthenticationService {
         return response.build();
     }
 
+    public StatusResponse forgotPassword(passwordForgotRequest request) {
+        if (request.getEmail() != null){
+            var user = repository.findByEmail(request.getEmail()).orElseThrow();
+        } else if (request.getPhone() != null) {
+            var user = repository.findByPhone(request.getPhone()).orElseThrow();
+        } else {
+            return StatusResponse.builder()
+                    .status(StatusResponse.Result.FAILED.getValue())
+                    .build();
+        }
+        return StatusResponse.builder()
+                .status(StatusResponse.Result.SUCCESS.getValue())
+                .build();
+    }
+
     private String generateVerificationCode() {
         var codeSet = "0123456789";
         var random = new Random();

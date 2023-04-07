@@ -43,4 +43,12 @@ public class AuthenticationController {
     ){
         return ResponseEntity.ok(service.checkCode(request));
     }
+
+    @Operation(summary = "忘記密碼")
+    @PostMapping("/password/forgot")
+    public ResponseEntity<StatusResponse> checkCode(
+            @RequestBody passwordForgotRequest request
+    ){
+        return ResponseEntity.ok(service.forgotPassword(request));
+    }
 }
