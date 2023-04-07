@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class VerificationCodeRequest {
+public class VerificationCodeSendRequest {
     private String account;
     private String phone;
 }

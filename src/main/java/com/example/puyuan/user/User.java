@@ -34,6 +34,8 @@ public class User implements UserDetails {
 
     private String verificationCode = null;
 
+    private Boolean enabled = false;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return null;

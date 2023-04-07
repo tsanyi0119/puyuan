@@ -31,8 +31,16 @@ public class AuthenticationController {
     @Operation(summary = "發送驗證碼")
     @PostMapping("/verification/send")
     public ResponseEntity<StatusResponse> sendCode(
-            @RequestBody VerificationCodeRequest request
+            @RequestBody VerificationCodeSendRequest request
     ) {
         return ResponseEntity.ok(service.sendCode(request));
+    }
+
+    @Operation(summary = "檢驗驗證碼")
+    @PostMapping("/verification/check")
+    public ResponseEntity<StatusResponse> checkCode(
+            @RequestBody VerificationCodeCheckRequest request
+    ){
+        return ResponseEntity.ok(service.checkCode(request));
     }
 }

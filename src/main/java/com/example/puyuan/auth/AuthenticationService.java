@@ -49,7 +49,7 @@ public class AuthenticationService {
                 .build();
     }
 
-    public StatusResponse sendCode(VerificationCodeRequest request) {
+    public StatusResponse sendCode(VerificationCodeSendRequest request) {
         var user = repository.findByEmail(request.getAccount()).orElseThrow();
         var verificationCode = generateVerificationCode();
         user.setVerificationCode(verificationCode);
@@ -58,6 +58,23 @@ public class AuthenticationService {
                 .status(StatusResponse.Result.SUCCESS.getValue())
                 .verificationCode(verificationCode)
                 .build();
+    }
+
+    public StatusResponse checkCode(VerificationCodeCheckRequest request) {
+        var response = StatusResponse.builder();
+        if (request.getCode() == null || request.getPhone() == null){
+            response.status(StatusResponse.Result.FAILED.getValue());
+        } else {
+            var user = repository.findByPhone(request.getPhone()).orElseThrow();
+            if(request.getCode().equals(user.getVerificationCode())) {
+                response.status(StatusResponse.Result.SUCCESS.getValue());
+                user.setEnabled(true);
+                repository.save(user);
+            } else {
+                response.status(StatusResponse.Result.FAILED.getValue());
+            }
+        }
+        return response.build();
     }
 
     private String generateVerificationCode() {
