@@ -8,6 +8,7 @@ import com.example.puyuan.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -77,7 +78,7 @@ public class AuthenticationService {
         return response.build();
     }
 
-    public StatusResponse forgotPassword(passwordForgotRequest request) {
+    public StatusResponse forgotPassword(PasswordForgotRequest request) {
         if (request.getEmail() != null){
             var user = repository.findByEmail(request.getEmail()).orElseThrow();
         } else if (request.getPhone() != null) {
@@ -100,5 +101,15 @@ public class AuthenticationService {
             result.append(codeSet.charAt(random.nextInt(codeSet.length())));
         }
         return result.toString();
+    }
+
+    public StatusResponse resetPassword(PasswordResetRequest request) {
+        var user = repository.findByEmail(SecurityContextHolder.getContext().getAuthentication().getName()).orElseThrow();
+        // 更新密碼並寫入資料庫
+        user.setPassword(request.getPassword());
+        repository.save(user);
+        return StatusResponse.builder()
+                .status(StatusResponse.Result.SUCCESS.getValue())
+                .build();
     }
 }

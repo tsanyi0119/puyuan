@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/auth")
+@RequestMapping("/api")
 @RequiredArgsConstructor
 public class AuthenticationController {
     private final AuthenticationService service;
@@ -47,8 +47,16 @@ public class AuthenticationController {
     @Operation(summary = "忘記密碼")
     @PostMapping("/password/forgot")
     public ResponseEntity<StatusResponse> checkCode(
-            @RequestBody passwordForgotRequest request
+            @RequestBody PasswordForgotRequest request
     ){
         return ResponseEntity.ok(service.forgotPassword(request));
+    }
+
+    @Operation(summary = "重設密碼")
+    @PostMapping("/password/reset")
+    public ResponseEntity<StatusResponse> resetPassword(
+            @RequestBody  PasswordResetRequest request
+    ) {
+        return ResponseEntity.ok(service.resetPassword(request));
     }
 }
